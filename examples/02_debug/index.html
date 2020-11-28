@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>debug</title>
+</head>
+
+<body>
+  <div id="app">
+    Hello world
+  </div>
+</body>
+<script src="../../dist/vue.js"></script>
+<script>
+  //如果同时设置template和render此时会渲染
+  const vm = new Vue({
+    el: '#app',
+    // 不执行这条语句，直接执行render
+    template: '<h3>Hello template</h3>',
+    render(h) {
+      return h('h4', 'Hello render')
+    }
+  })
+</script>
+
+</html>
