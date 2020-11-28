@@ -16,24 +16,28 @@ const banner =
   ' */'
 
 const weexFactoryPlugin = {
-  intro () {
+  intro() {
     return 'module.exports = function weexFactory (exports, document) {'
   },
-  outro () {
+  outro() {
     return '}'
   }
 }
 
 const aliases = require('./alias')
 const resolve = p => {
+  //获取传入的第一个值
   const base = p.split('/')[0]
+  //根据第一个值获取对应的路径
   if (aliases[base]) {
+    //将得到的路径和传入的第二个值进行拼接，获得入口文件的路径
     return path.resolve(aliases[base], p.slice(base.length + 1))
   } else {
     return path.resolve(__dirname, '../', p)
   }
 }
 
+// 调用自定义的resolve函数，根据传入的简写路径，获取真实路径
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs': {
@@ -168,8 +172,10 @@ const builds = {
   }
 }
 
-function genConfig (name) {
+function genConfig(name) {
+  //根据name 获取builds对象中对应的值
   const opts = builds[name]
+  //rollup的配置项
   const config = {
     input: opts.entry,
     external: opts.external,
@@ -205,6 +211,7 @@ function genConfig (name) {
   return config
 }
 
+// 判断命令中是否包含TARGET字段
 if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
 } else {
